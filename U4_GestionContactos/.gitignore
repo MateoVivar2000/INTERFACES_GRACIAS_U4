@@ -1,0 +1,26 @@
+# Maven build output
+target/
+*.class
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Datos generados en runtime (el ejemplo se sí se versiona)
+contacts_data/datosContactos.csv
+contacts_data/contactos.json
+contacts_data/exportacion_*.csv
+contacts_data/contactos_exportados.json

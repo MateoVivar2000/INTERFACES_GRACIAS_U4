@@ -1,0 +1,30 @@
+[
+  {
+    "nombre": "Ana",
+    "telefono": "0991234567",
+    "email": "ana.garcia@email.com",
+    "categoria": "Trabajo",
+    "favorito": false
+  },
+  {
+    "nombre": "Luis",
+    "telefono": "0987654321",
+    "email": "luis.rodriguez@email.com",
+    "categoria": "Amigos",
+    "favorito": true
+  },
+  {
+    "nombre": "Maria",
+    "telefono": "0976543210",
+    "email": "maria.perez@email.com",
+    "categoria": "Familia",
+    "favorito": false
+  },
+  {
+    "nombre": "Carlos",
+    "telefono": "0965432109",
+    "email": "cmendoza@empresa.ec",
+    "categoria": "Trabajo",
+    "favorito": false
+  }
+]

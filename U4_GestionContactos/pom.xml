@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- ============================================================
+         INFORMACIÓN DEL PROYECTO — UNIDAD 4: GESTIÓN DE DEPENDENCIAS
+         Migración del proyecto original (NetBeans classpath) a Maven.
+         Autor: Vivar Mateo — Universidad Politécnica Salesiana
+         ============================================================ -->
+    <groupId>com.ups.gestioncontactos</groupId>
+    <artifactId>U4_GestionContactos</artifactId>
+    <version>4.0.0</version>
+    <packaging>jar</packaging>
+    <name>Gestión de Contactos — UPS Unidad 4</name>
+    <description>
+        Migración a Maven del proyecto de Gestión de Contactos.
+        Integra FlatLaf para interfaz moderna y Gson para manejo de JSON.
+    </description>
+
+    <!-- ============================================================
+         PROPIEDADES — Gestión centralizada de versiones
+         Cambiar versión aquí actualiza TODAS las referencias del pom.
+         ============================================================ -->
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Versiones estables fijadas para reproducibilidad -->
+        <flatlaf.version>3.2.5</flatlaf.version>
+        <gson.version>2.10.1</gson.version>
+        <miglayout.version>11.4.2</miglayout.version>
+        <junit.version>5.10.0</junit.version>
+    </properties>
+
+    <!-- ============================================================
+         DEPENDENCIAS AUDITADAS
+         ============================================================ -->
+    <dependencies>
+
+        <!-- ──────────────────────────────────────────────────────────
+             1. FlatLaf 3.2.5 — Look & Feel moderno para Swing
+             Fuente:    Maven Central (com.formdev)
+             GitHub:    https://github.com/JFormDesigner/FlatLaf
+             Estrellas: +3.5k | Licencia: Apache 2.0
+             Seguridad: Sin CVEs registrados. Última versión estable.
+             Propósito: Reemplaza el L&F Swing por defecto con un tema
+                        plano y moderno (claro/oscuro). Integración en
+                        una sola línea: FlatDarkLaf.setup().
+             Transitivas: Ninguna (JAR standalone).
+             ────────────────────────────────────────────────────────── -->
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf</artifactId>
+            <version>${flatlaf.version}</version>
+        </dependency>
+
+        <!-- ──────────────────────────────────────────────────────────
+             2. Gson 2.10.1 — Serialización / Deserialización JSON
+             Fuente:    Maven Central (com.google.code.gson)
+             GitHub:    https://github.com/google/gson
+             Estrellas: +23k | Licencia: Apache 2.0
+             Seguridad: CVE-2022-1471 NO afecta a Gson (afecta
+                        SnakeYAML). Gson 2.10.1 es la versión segura
+                        y estable de Google desde nov/2022.
+             Propósito: Serializar/deserializar objetos persona↔JSON
+                        para importar y exportar contactos.
+             Transitivas excluidas: error_prone_annotations — solo
+                        necesaria al compilar el código fuente de
+                        Google, innecesaria en runtime de nuestra app.
+             ────────────────────────────────────────────────────────── -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+            <exclusions>
+                <!-- Dependencia transitiva excluida: solo compile-time en Google -->
+                <exclusion>
+                    <groupId>com.google.errorprone</groupId>
+                    <artifactId>error_prone_annotations</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- ──────────────────────────────────────────────────────────
+             3. MigLayout 11.4.2 — Layout manager avanzado
+             Fuente:    Maven Central (com.miglayout)
+             Propósito: Reemplaza los JARs locales miglayout que tenía
+                        el proyecto original en la raíz del classpath.
+             Versión:   11.4.2 = misma que los JARs originales del repo.
+             Nota:      Se declaran ambos artefactos (core + swing)
+                        igual que los JARs originales del proyecto.
+             ────────────────────────────────────────────────────────── -->
+        <dependency>
+            <groupId>com.miglayout</groupId>
+            <artifactId>miglayout-core</artifactId>
+            <version>${miglayout.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.miglayout</groupId>
+            <artifactId>miglayout-swing</artifactId>
+            <version>${miglayout.version}</version>
+            <!-- Excluir transitiva innecesaria: ya tenemos miglayout-core declarado -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.miglayout</groupId>
+                    <artifactId>miglayout-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- ──────────────────────────────────────────────────────────
+             4. JUnit Jupiter 5.10.0 — Pruebas unitarias
+             Alcance TEST: no se incluye en el JAR final de producción.
+             Esto evita sobrecarga innecesaria en el artefacto entregado.
+             ────────────────────────────────────────────────────────── -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <!-- ============================================================
+         BUILD — Plugins de construcción
+         ============================================================ -->
+    <build>
+        <!-- Incluir resources: imágenes e idiomas en el classpath -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
+        <plugins>
+            <!-- Compilador con Java 11 y UTF-8 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- JAR ejecutable con todas las dependencias empaquetadas -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>shade</goal></goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>vista.ventana</mainClass>
+                                </transformer>
+                            </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
