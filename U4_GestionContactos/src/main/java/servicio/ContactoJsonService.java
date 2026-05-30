@@ -10,19 +10,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Servicio de Serialización/Deserialización JSON — NUEVO en Unidad 4.
- *
- * Usa la dependencia Gson (com.google.code.gson:2.10.1) declarada en pom.xml.
- * Permite importar y exportar la lista de contactos en formato JSON estándar,
- * complementando (sin reemplazar) la persistencia CSV del personaDAO original.
- *
- * FUNCIONALIDADES:
- *  - exportarJSON()   → Serializa List<persona> → archivo .json
- *  - importarJSON()   → Deserializa archivo .json → List<persona>
- *  - guardarLocal()   → Persistencia automática en contacts_data/contactos.json
- *  - cargarLocal()    → Carga desde archivo local al arrancar la app
- */
 public class ContactoJsonService {
 
     // Instancia Gson con pretty printing para que el JSON sea legible por humanos
